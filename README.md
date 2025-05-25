@@ -1,15 +1,19 @@
 # parsy
+
 🔎 A simple website parser that finds all the images, paragraphs, and links
 
 ## Installing
+
 To install, you need to have **git** and **python3** downloaded
 
 ### Step 1
+
 Clone the repository
 
 `git clone https://github.com/alteregodev/parsy.git`
 
 ### Step 2
+
 Install the dependencies
 
 `pip3 install -r requirements.txt`

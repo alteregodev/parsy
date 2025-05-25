@@ -24,7 +24,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-s', '--site', required=True, type=str, help='site to parse, http:// or https:// schema required')
-    parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level (yappier script)') # args
+    parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
 
     args = parser.parse_args()
     site = args.site # vars

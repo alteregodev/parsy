@@ -19,7 +19,7 @@ def main():
                    $Xx++;xX 
                      $XxxXX 
           
-------------------------------------------------------------------------------      ''')
+--------------------------------------------------------------------------------------''')
 
     parser = argparse.ArgumentParser()
 
@@ -27,13 +27,16 @@ def main():
     parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
 
     args = parser.parse_args()
-    site = args.site # vars
     v = args.verbosity
+    site = args.site # vars
+    if not ('https://' in site or 'http://' in site):
+        print('[!] Missing schema (http:// or https://)')
+        exit()
 
     def get_page(url): # get page, most of the error checking here
         try:
             print(f'[#] Trying to connect to {url}' if v else '', end='\n' if v else '')
-            r = requests.get(url)
+            r = requests.get(url, timeout=7)
             if r.status_code == 404:
                 print('[!] 404 Not Found, please check if url you provided is valid')
                 exit()
@@ -42,7 +45,7 @@ def main():
             return r.text
         
         except requests.exceptions.MissingSchema:
-            print('[!] Missing schema, please input http:// or https:// in your url')
+            print('[!] Missing schema (http:// or https://)!')
             exit()
         except requests.exceptions.ConnectionError:
             print(f'[!] Could not connect to {url}, please check if url you provided is valid')
@@ -61,6 +64,8 @@ def main():
 
             title = soup.find('title')
             links = soup.find_all('a')
+            headers1 = soup.find_all('h1')
+            headers2 = soup.find_all('h2')
             paragraphs = soup.find_all('p')
             images = soup.find_all('img')
 
@@ -72,7 +77,7 @@ def main():
                 f.write(f'\nTITLE - "{title.text}"\n')
 
                 if links:
-                    f.write('\n-------------------------------------------------~<#:ALL LINKS:#>~--------------------------------------------------\n')
+                    f.write('\n----------------------------------------------------~<#:ALL LINKS:#>~-----------------------------------------------------\n')
                     print(f'[#] Parsing links' if v else '', end='\n' if v else '')
                     for link in links:
                         href = link.get('href')
@@ -80,28 +85,42 @@ def main():
                         f.write(f'\n{text}: {href}\n')
 
                 else:
-                    f.write('\n-----------------------------------------------~<#:NO LINKS FOUND:#>~-----------------------------------------------\n')
+                    f.write('\n--------------------------------------------------~<#:NO LINKS FOUND:#>~--------------------------------------------------\n')
                     print(f'[#] No links found' if v else '', end='\n' if v else '')
                 
+                if headers1:
+                    f.write('\n---------------------------------------------------~<#:ALL HEADERS:#>~----------------------------------------------------\n')
+                    print(f'[#] Parsing headers' if v else '', end='\n' if v else '')
+                    for h1 in headers1:
+                        text = h1.text.strip()
+                        f.write(f'\n"{text}"\n')
+                    if headers2:
+                        for h2 in headers2:
+                            text = h2.text.strip()
+                            f.write(f'\n"{text}"\n')
+                else:
+                    f.write('\n-------------------------------------------------~<#:NO HEADERS FOUND:#>~-------------------------------------------------\n')
+                    print(f'[#] No headers found' if v else '', end='\n' if v else '') 
+
                 if paragraphs:
-                    f.write('\n-----------------------------------------------~<#:ALL PARAGRAPHS:#>~-----------------------------------------------\n')
+                    f.write('\n--------------------------------------------------~<#:ALL PARAGRAPHS:#>~--------------------------------------------------\n')
                     print(f'[#] Parsing paragraphs' if v else '', end='\n' if v else '')
                     for paragraph in paragraphs:
                         text = paragraph.text.strip()
                         f.write(f'\n"{text}"\n')
                 else:
-                    f.write('\n---------------------------------------------~<#:NO PARAGRAPHS FOUND:#>~--------------------------------------------\n')
+                    f.write('\n------------------------------------------------~<#:NO PARAGRAPHS FOUND:#>~-----------------------------------------------\n')
                     print(f'[#] No paragraphs found' if v else '', end='\n' if v else '') 
 
 
                 if images:
-                    f.write('\n-------------------------------------------------~<#:ALL IMAGES:#>~-------------------------------------------------\n')
+                    f.write('\n----------------------------------------------------~<#:ALL IMAGES:#>~----------------------------------------------------\n')
                     print(f'[#] Parsing images' if v else '', end='\n' if v else '')
                     for img in images:
                         src = img.get('src')
                         f.write(f'\n{src}\n')
                 else:
-                    f.write('\n-----------------------------------------------~<#:NO IMAGES FOUND:#>~----------------------------------------------\n')
+                    f.write('\n--------------------------------------------------~<#:NO IMAGES FOUND:#>~-------------------------------------------------\n')
                     print(f'[#] No images found' if v else '', end='\n' if v else '')
 
                 print(f'[i] Report saved as {filename}')

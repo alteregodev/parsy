@@ -4,7 +4,7 @@
 
 ## Installing
 
-To install, you need to have **git** and **python3** downloaded
+To install, you need to have **git** and **python** v3.13.2 downloaded
 
 ### Step 1
 
@@ -16,13 +16,13 @@ Clone the repository
 
 Install the dependencies
 
-`pip3 install -r requirements.txt`
+`pip install -r requirements.txt`
 
 ## Usage
 
 To parse a website, you can simply type
 
-`python parsy.py -s https://example.com`
+`python parsy.py -s https://example.com` Where "-s" stands for site url
 
 Additionally, you can use the -v or --verbosity flag to increase the verbosity level
 

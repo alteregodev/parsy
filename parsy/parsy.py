@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
     v = args.verbosity
     site = args.site # vars
-    if not ('https://' in site or 'http://' in site):
+    if not site.startswith(('http://', 'https://')):
         print('[!] Missing schema (http:// or https://)')
         exit()
 
@@ -44,9 +44,6 @@ def main():
             r.encoding = 'utf-8'
             return r.text
         
-        except requests.exceptions.MissingSchema:
-            print('[!] Missing schema (http:// or https://)!')
-            exit()
         except requests.exceptions.ConnectionError:
             print(f'[!] Could not connect to {url}, please check if url you provided is valid')
             exit()

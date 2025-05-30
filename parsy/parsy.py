@@ -25,10 +25,12 @@ def main():
 
     parser.add_argument('-s', '--site', required=True, type=str, help='site to parse, http:// or https:// schema required')
     parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
+    parser.add_argument('--html', required=False, action='store_true', help='get entire page html')
 
     args = parser.parse_args()
     v = args.verbosity
     site = args.site # vars
+    html = args.html
     if not site.startswith(('http://', 'https://')):
         print('[!] Missing schema (http:// or https://)')
         exit()
@@ -69,6 +71,11 @@ def main():
             filename = f"results/{site.strip('http://' if 'http://' in site else 'https://').replace('/', '-')}" # filename
             filename = filename.replace('?', '-')
             filename = filename.replace('.', '-')
+            if html:
+                with open(filename + '.html', 'w', encoding='utf-8') as f:
+                    f.write(page_html)
+                    print(f'[i] Saved page html as {f.name}')
+
             filename += '.txt' 
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(f'\nTITLE - "{title.text}"\n')

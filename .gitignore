@@ -1,0 +1,3 @@
+parsy/__pycache__/*
+results/*
+!results/example.txt

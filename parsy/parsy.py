@@ -83,9 +83,9 @@ def main():
                 if links:
                     f.write('\n----------------------------------------------------~<#:ALL LINKS:#>~-----------------------------------------------------\n')
                     print(f'[#] Parsing links' if v else '', end='\n' if v else '')
-                    for link in links:
-                        href = link.get('href')
-                        text = link.text.strip()
+                    for a in links:
+                        href = a.get('href')
+                        text = a.text.strip()
                         f.write(f'\n{text}: {href}\n')
 
                 else:
@@ -109,8 +109,8 @@ def main():
                 if paragraphs:
                     f.write('\n--------------------------------------------------~<#:ALL PARAGRAPHS:#>~--------------------------------------------------\n')
                     print(f'[#] Parsing paragraphs' if v else '', end='\n' if v else '')
-                    for paragraph in paragraphs:
-                        text = paragraph.text.strip()
+                    for p in paragraphs:
+                        text = p.text.strip()
                         f.write(f'\n"{text}"\n')
                 else:
                     f.write('\n------------------------------------------------~<#:NO PARAGRAPHS FOUND:#>~-----------------------------------------------\n')

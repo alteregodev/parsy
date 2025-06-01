@@ -122,12 +122,13 @@ def main():
                     print(f'[#] Parsing images' if v else '', end='\n' if v else '')
                     for img in images:
                         src = img.get('src')
-                        f.write(f'\n{src}\n')
+                        alt = img.get('alt')
+                        f.write(f'\n{alt}: {src}\n')
                 else:
                     f.write('\n--------------------------------------------------~<#:NO IMAGES FOUND:#>~-------------------------------------------------\n')
                     print(f'[#] No images found' if v else '', end='\n' if v else '')
 
-                print(f'[i] Report saved as {filename}')
+                print(f'[i] Report saved as results/{filename}')
         else:
             print('[!] No html to parse, exiting')
             exit()

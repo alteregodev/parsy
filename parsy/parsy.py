@@ -134,3 +134,6 @@ def main():
             exit()
 
     parse(get_page(site))
+
+if __name__ == '__main__':
+    print('[!] Please, do not run the main script directly')

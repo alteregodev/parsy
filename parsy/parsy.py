@@ -3,6 +3,15 @@ import argparse
 from bs4 import BeautifulSoup
 
 def main():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-s', '--site', required=True, type=str, help='site to parse, http:// or https:// schema required')
+    parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
+    parser.add_argument('--html', required=False, action='store_true', help='get entire page html')
+
+    args = parser.parse_args()
+
     print(r'''
         XXXXX                
      Xx+++++++xX$           
@@ -20,14 +29,7 @@ def main():
                      $XxxXX 
           
 --------------------------------------------------------------------------------------''')
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('-s', '--site', required=True, type=str, help='site to parse, http:// or https:// schema required')
-    parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
-    parser.add_argument('--html', required=False, action='store_true', help='get entire page html')
-
-    args = parser.parse_args()
+    
     v = args.verbosity
     site = args.site # vars
     html = args.html

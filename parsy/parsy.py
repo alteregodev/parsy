@@ -151,7 +151,7 @@ def main():
                     f.write('\n--------------------------------------------------~<#:NO IMAGES FOUND:#>~-------------------------------------------------\n')
                     print(f'[#] No images found' if v else '', end='\n' if v else '')
 
-                print(f'[i] Report saved as results/{filename}')
+                print(f'[i] Report saved as {filename}')
         else:
             print('[!] No html to parse, exiting')
             exit()

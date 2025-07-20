@@ -28,8 +28,9 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-s', '--site', required=True, type=str, help='site to parse, http:// or https:// schema required')
-    parser.add_argument('-v', '--verbosity', required=False, action='store_true', help='increase verbosity level') # args
-    parser.add_argument('--html', required=False, action='store_true', help='get entire page html')
+    parser.add_argument('-v', '--verbose', action='store_true', help='increase verbosity level') # args
+    parser.add_argument('--html', action='store_true', help='get entire page html')
+    parser.add_argument('--proxy', help='add additional proxy to do requests with\nexample format - socks5://127.0.0.1:42\nor http://127.0.0.1:42')
 
     args = parser.parse_args()
 
@@ -51,7 +52,13 @@ def main():
           
 --------------------------------------------------------------------------------------''')
     
-    v = args.verbosity
+    proxy = args.proxy 
+    proxies = {
+        'http': proxy,
+        'https': proxy
+    }
+
+    v = args.verbose
     site = args.site # vars
     html = args.html
     if not site.startswith(('http://', 'https://')):
@@ -61,7 +68,7 @@ def main():
     def get_page(url): # get page, most of the error checking here
         try:
             print(f'[#] Trying to connect to {url}' if v else '', end='\n' if v else '')
-            r = requests.get(url, timeout=7, headers=headers)
+            r = requests.get(url, timeout=7, headers=headers, proxies=proxies)
             if r.status_code == 404:
                 print('[!] 404 Not Found, please check if url you provided is valid')
                 exit()
@@ -70,7 +77,7 @@ def main():
             return r.text
         
         except requests.exceptions.ConnectionError:
-            print(f'[!] Could not connect to {url}, please check if url you provided is valid')
+            print(f'[!] Could not connect to {url}, please check if the url or proxy you provided is valid')
             exit()
         except requests.exceptions.InvalidURL:
             print(f'[!] Invalid URL')

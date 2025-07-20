@@ -24,14 +24,8 @@ To parse a website, you can simply type
 
 `python parsy.py -s https://example.com` Where "-s" stands for site url
 
-Additionally, you can use the -v or --verbosity flag to increase the verbosity level
+Additionally, you can use the -v or --verbose flag to increase the verbosity level
 
 Results are saved in the **results** directory in txt format
 
-### All Flags
-
-- `-s --site` - Specify the target url
-
-- `-v --verbosity` - Increase verbosity level
-
-- `--html` - Get the website's full html code
+To see all avaliable options type `python parsy.py --help`

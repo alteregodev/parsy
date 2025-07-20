@@ -1,3 +1,4 @@
 requests
+requests[socks]
 beautifulsoup4
 lxml
